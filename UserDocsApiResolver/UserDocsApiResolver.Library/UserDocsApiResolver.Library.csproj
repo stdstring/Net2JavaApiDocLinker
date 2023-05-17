@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1BE91F0A-0CC5-47B7-BD21-E4DFE9198D4A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UserDocsApiResolver.Library</RootNamespace>
+    <AssemblyName>UserDocsApiResolver.Library</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\log4net\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiMember.cs" />
+    <Compile Include="ApiMemberBuilder\ApiMemberDocProcessor.cs" />
+    <Compile Include="ApiMemberBuilder\CommonJavaMemberBuilder.cs" />
+    <Compile Include="ApiMemberBuilder\CommonNetMemberBuilder.cs" />
+    <Compile Include="ApiMemberBuilder\CommonCollectionBuilder.cs" />
+    <Compile Include="ApiMemberBuilder\JavaSpecificCollectionBuilder.cs" />
+    <Compile Include="ApiMemberLinkResolver\ApiMemberFactory.cs" />
+    <Compile Include="ApiMemberLinkResolver\ILinkResolver.cs" />
+    <Compile Include="ApiMemberLinkResolver\JavaLinkDef.cs" />
+    <Compile Include="ApiMemberLinkResolver\JavaLinkResolver.cs" />
+    <Compile Include="ApiMemberLinkResolver\MethodNameTransformer.cs" />
+    <Compile Include="ApiMemberLinkResolver\NetLinkDef.cs" />
+    <Compile Include="ApiMemberLinkResolver\NetLinkResolver.cs" />
+    <Compile Include="ApiMemberLinkResolver\ParameterListTransformer.cs" />
+    <Compile Include="ApiMemberLinkResolver\TypeTransformer.cs" />
+    <Compile Include="ApiMemberParameter.cs" />
+    <Compile Include="ApiMemberPlatform.cs" />
+    <Compile Include="ApiMemberStorage\ApiMemberStorageConfig.cs" />
+    <Compile Include="ApiMemberStorage\ApiMemberStorageManager.cs" />
+    <Compile Include="ApiMemberStorage\IApiMemberStorage.cs" />
+    <Compile Include="ApiMemberStorage\JavaApiMemberStorage.cs" />
+    <Compile Include="ApiMemberStorage\NetApiMemberStorage.cs" />
+    <Compile Include="ApiMemberType.cs" />
+    <Compile Include="JavaMetadata\JavaClass.cs" />
+    <Compile Include="JavaMetadata\JavaConstructor.cs" />
+    <Compile Include="JavaMetadata\JavaField.cs" />
+    <Compile Include="JavaMetadata\JavaMetadataSearch.cs" />
+    <Compile Include="JavaMetadata\JavaMetadataStorage.cs" />
+    <Compile Include="JavaMetadata\JavaMetadataStorageBuilder.cs" />
+    <Compile Include="JavaMetadata\JavaMethod.cs" />
+    <Compile Include="JavaMetadata\SearchCondition.cs" />
+    <Compile Include="JavaMetadata\Signature.cs" />
+    <Compile Include="JavaReflection\IJavaReflectionAdapter.cs" />
+    <Compile Include="JavaReflection\JavaReflectionAdapter.cs" />
+    <Compile Include="JavaReflection\JavaReflectionManager.cs" />
+    <Compile Include="JavaReflection\JavaReflectionRequest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ApiMemberCollectionUtils.cs" />
+    <Compile Include="Utils\ApiMemberUtils.cs" />
+    <Compile Include="Utils\CommonDefs.cs" />
+    <Compile Include="Utils\Func.cs" />
+    <Compile Include="Utils\MemberInfoPresentation.cs" />
+    <Compile Include="Utils\MemberPartDef.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

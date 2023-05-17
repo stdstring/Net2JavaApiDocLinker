@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JavaReflectionApp" default="all" basedir=".">
+	<property environment="env"/>
+	<property name="debuglevel" value="source,lines,vars"/>
+	<property name="target" value="1.6"/>
+	<property name="source" value="1.6"/>
+	<property name="junit.output.dir" value="junit"/>
+	<property name="build" value="build"/>
+	<property name="build.classes" value="${build}/classes"/>
+	<property name="build.tests" value="${build}/tests"/>
+	<property name="dist" value="dist"/>
+	<property name="dist.jar" value="${dist}/JavaReflectionApp.jar"/>
+	<property name="testpackage.jar" value="${build.tests}/TestLibrary.jar"/>
+	<path id="junit.libclasspath">
+		<pathelement location="external-libs/junit-4.8.2.jar"/>
+	</path>
+	<path id="testpackage.libclasspath">
+		<pathelement location="${testpackage.jar}"/>
+	</path>
+	<target name="init">
+		<mkdir dir="${build.classes}"/>
+		<mkdir dir="${build.tests}"/>
+		<copy includeemptydirs="false" todir="${build.classes}">
+			<fileset dir="src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="${build.classes}"/>
+		<delete dir="${build.tests}"/>
+		<delete dir="${build}"/>
+		<delete dir="${dist}"/>
+		<delete dir="${junit.output.dir}"/>
+	</target>
+	<target depends="clean" name="cleanall" />
+	<target depends="build-project" name="build"/>
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.classes}" source="${source}" target="${target}">
+			<src path="src"/>
+		</javac>
+	</target>
+	<target name="make-jar" depends="build">
+		<mkdir dir="${dist}"/>
+		<jar destfile="${dist.jar}" basedir="${build.classes}">
+			<manifest>
+				<attribute name="Main-Class" value="javareflectionapp.JavaReflectionApp"/>
+			</manifest>
+		</jar>
+	</target>
+	<target depends="make-jar" name="deploy">
+		<copy file="${dist.jar}" todir="../bin" />
+	</target>
+	<target depends="init" name="build-tests-prerequisites">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.tests}" source="${source}" target="${target}">
+			<src path="test/testpackage"/>
+			<classpath>
+				<path refid="junit.libclasspath"/>
+				<pathelement location="${build.classes}"/>
+			</classpath>
+			</javac>
+		<jar destfile="${testpackage.jar}" basedir="${build.tests}" />
+		<delete dir="${build.tests}/testpackage"/>
+	</target>
+	<target depends="build-tests-prerequisites" name="build-tests">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.tests}" source="${source}" target="${target}">
+			<src path="test/javareflectionapp"/>
+			<classpath>
+				<path refid="junit.libclasspath"/>
+				<path refid="testpackage.libclasspath"/>
+				<pathelement location="${build.classes}"/>
+			</classpath>
+		</javac>
+	</target>
+	<target depends = "build, build-tests" name="junit.test">
+		<mkdir dir="${junit.output.dir}"/>
+		<junit fork="yes" printsummary="withOutAndErr">
+			<classpath>
+				<path refid="junit.libclasspath"/>
+				<path refid="testpackage.libclasspath"/>
+				<pathelement path="${build.classes}"/>
+				<pathelement path="${build.tests}"/>
+			</classpath>
+			<formatter type="xml"/>
+			<batchtest fork="yes" todir="${junit.output.dir}">
+				<fileset dir="${build.tests}" />
+			</batchtest>
+		</junit>
+	</target>
+	<target depends = "junit.test" name="junitreport">
+		<junitreport todir="${junit.output.dir}">
+			<fileset dir="${junit.output.dir}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${junit.output.dir}"/>
+		</junitreport>
+	</target>
+	<target depends="clean, make-jar" name="all" />
+	<target depends="all, junitreport" name="all-tests" />
+</project>
